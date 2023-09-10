@@ -28,6 +28,15 @@ devDependencies:
   '@types/koa':
     specifier: ^2.13.8
     version: 2.13.8
+  '@types/koa-bodyparser':
+    specifier: ^4.3.10
+    version: 4.3.10
+  '@types/koa-json':
+    specifier: ^2.0.20
+    version: 2.0.20
+  '@types/koa-logger':
+    specifier: ^3.1.2
+    version: 3.1.2
 
 packages:
 
@@ -93,8 +102,26 @@ packages:
     resolution: {integrity: sha512-GJhpTepz2udxGexqos8wgaBx4I/zWIDPh/KOGEwAqtuGDkOUJu5eFvwmdBX4AmB8Odsr+9pHCQqiAqDL/yKMKw==}
     dev: true
 
+  /@types/koa-bodyparser@4.3.10:
+    resolution: {integrity: sha512-6ae05pjhmrmGhUR8GYD5qr5p9LTEMEGfGXCsK8VaSL+totwigm8+H/7MHW7K4854CMeuwRAubT8qcc/EagaeIA==}
+    dependencies:
+      '@types/koa': 2.13.8
+    dev: true
+
   /@types/koa-compose@3.2.5:
     resolution: {integrity: sha512-B8nG/OoE1ORZqCkBVsup/AKcvjdgoHnfi4pZMn5UwAPCbhk/96xyv284eBYW8JlQbQ7zDmnpFr68I/40mFoIBQ==}
+    dependencies:
+      '@types/koa': 2.13.8
+    dev: true
+
+  /@types/koa-json@2.0.20:
+    resolution: {integrity: sha512-RuQ1Vlpsm/EC5wo2oWCgNnwneixnSQ9aHQAE7nwnbSiCibgfUO2wwSQN6rn8SfF97cRdN9hKAtoc9KSIuiGP6Q==}
+    dependencies:
+      '@types/koa': 2.13.8
+    dev: true
+
+  /@types/koa-logger@3.1.2:
+    resolution: {integrity: sha512-sioTA1xlKYiIgryANWPRHBkG3XGbWftw9slWADUPC+qvPIY/yRLSrhvX7zkJwMrntub5dPO0GuAoyGGf0yitfQ==}
     dependencies:
       '@types/koa': 2.13.8
     dev: true
