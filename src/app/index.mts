@@ -1,21 +1,20 @@
 import Koa from 'koa';
 import {StatusCodes} from 'http-status-codes';
+import logger from 'koa-logger'
+import json from 'koa-json'
+import bodyParser from 'koa-bodyparser'
+import errorHandler from '../middlewares/error-handler.mjs';
 
 const PORT: number = 3000
 
 const app: Koa = new Koa();
 
+app.use(json())
+app.use(logger())
+app.use(bodyParser())
+
 // Generic error handling middleware.
-app.use(async (ctx: Koa.Context, next: () => Promise<any>) => {
-  try {
-    await next();
-  } catch (error:any) {
-    ctx.status = error.statusCode || error.status || StatusCodes.INTERNAL_SERVER_ERROR;
-    error.status = ctx.status;
-    ctx.body = { error };
-    ctx.app.emit('error', error, ctx);
-  }
-});
+app.use(errorHandler);
 
 // Initial route
 app.use(async (ctx:Koa.Context) => {
