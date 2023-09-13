@@ -43,6 +43,9 @@ devDependencies:
   '@types/koa-logger':
     specifier: ^3.1.2
     version: 3.1.2
+  '@types/koa-router':
+    specifier: ^7.4.4
+    version: 7.4.4
   typescript:
     specifier: ^5.2.2
     version: 5.2.2
@@ -131,6 +134,12 @@ packages:
 
   /@types/koa-logger@3.1.2:
     resolution: {integrity: sha512-sioTA1xlKYiIgryANWPRHBkG3XGbWftw9slWADUPC+qvPIY/yRLSrhvX7zkJwMrntub5dPO0GuAoyGGf0yitfQ==}
+    dependencies:
+      '@types/koa': 2.13.8
+    dev: true
+
+  /@types/koa-router@7.4.4:
+    resolution: {integrity: sha512-3dHlZ6CkhgcWeF6wafEUvyyqjWYfKmev3vy1PtOmr0mBc3wpXPU5E8fBBd4YQo5bRpHPfmwC5yDaX7s4jhIN6A==}
     dependencies:
       '@types/koa': 2.13.8
     dev: true
