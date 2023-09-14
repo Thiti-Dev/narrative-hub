@@ -1,9 +1,9 @@
 import {Container} from "inversify"
 import { RequestMethod } from "../shared/enums/common.mjs";
-
-type TControllerClass = { new(...args: any[]): any; };
-type TServiceClass = { new(...args: any[]): any; };
-export type TModuleClass = { new(...args: any[]): any; } & IModulizationProperty;
+export type TRegularClassType = { new(...args: any[]): any; }
+type TControllerClass = TRegularClassType
+type TServiceClass = TRegularClassType
+export type TModuleClass = TRegularClassType & IModulizationProperty;
 
 export interface IMoulizationProperty{
     moduleName: string;
@@ -20,6 +20,12 @@ export interface IModulizationProperty {
 }
   
 export interface IRouteDescriptionMetadata{
+    config?: IRouteDefinitionOption;
     path: string;
     method: RequestMethod
+}
+
+export interface IRouteDefinitionOption{
+    authorizationNeeded?: boolean,
+    validationBlueprint?: TRegularClassType
 }
