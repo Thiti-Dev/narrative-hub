@@ -1,5 +1,7 @@
 import Router from 'koa-router'
 import { IModulizationProperty, IRouteDescriptionMetadata, TModuleClass } from "../core/modulization/interfaces.mjs";
+import { Middleware } from 'koa';
+import { createValidationMiddleware } from '../middlewares/generators/create-validation-middleware.mjs';
 
 // modules type compromised
 export function registerModules(modules: TModuleClass[] | any[]){
@@ -25,13 +27,18 @@ export function registerModules(modules: TModuleClass[] | any[]){
                     const descriptedMetadata: IRouteDescriptionMetadata = Reflect.getMetadata("route-description",containedController, methodName)
                     if(descriptedMetadata){
                         // if metadata found
-                        const {method,path} = descriptedMetadata
-                        router[method](modulePrefix+(path === "/" ? '' : path),containedController[methodName]) // supportation for access like /index and /index/
+                        const {method,path,config} = descriptedMetadata
+                        let middleWaresBuildUp:Middleware[] = [];
+                        if(config?.validationBlueprint){
+                            const middlewareCreation: Middleware = createValidationMiddleware(config.validationBlueprint)
+                            middleWaresBuildUp.push(middlewareCreation) // push the validation-middleware to buildUp
+                        }
+                        router[method](modulePrefix+(path === "/" ? '' : path),...middleWaresBuildUp,containedController[methodName] as Router.IMiddleware) // supportation for access like /index and /index/
                     }
                 })
             }
             else{
-                // impl needed later on . . .
+                // impl will be needed later on if we need multiple-controller supportation. . .
             }
         }
     })
