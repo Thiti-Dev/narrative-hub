@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "service:dev": "ts-node-esm ./src/app/index.mts"
+    "service:dev": "ts-node-esm ./src/app/index.mts",
+    "service:dev:live": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
     "@types/koa-json": "^2.0.20",
     "@types/koa-logger": "^3.1.2",
     "@types/koa-router": "^7.4.4",
+    "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
   }
 }
