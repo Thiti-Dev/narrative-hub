@@ -1,11 +1,15 @@
 import "reflect-metadata";
-import Koa from 'koa';
+import Koa, { Context, Next } from 'koa';
 import logger from 'koa-logger'
 import json from 'koa-json'
 import bodyParser from 'koa-bodyparser'
 import errorHandler from '../middlewares/error-handler.mjs';
 import { registerModules } from "./module-registration.mjs";
 import { ManagementModule } from "../modules/managements/managements.module.mjs";
+import { RequestContext } from "@mikro-orm/core";
+import { orm } from "../databases/mikrorm/mikrorm.config.mjs";
+import { globalContainer } from "../global/inversify.container.mjs";
+import { MikroORM } from "../databases/mikrorm/instance.mjs";
 
 const PORT: number = 3000
 
@@ -14,6 +18,9 @@ const app: Koa = new Koa();
 app.use(json())
 app.use(logger())
 app.use(bodyParser())
+
+app.use((_ctx:Context,next:Next) => RequestContext.createAsync(orm.em,next))
+globalContainer.get(MikroORM).initialize(orm) // registering loaded orm to the singleton-global-container
 
 
 app.use(registerModules([
