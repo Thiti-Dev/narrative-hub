@@ -33,7 +33,7 @@ export function registerModules(modules: TModuleClass[] | any[]){
                             const middlewareCreation: Middleware = createValidationMiddleware(config.validationBlueprint)
                             middleWaresBuildUp.push(middlewareCreation) // push the validation-middleware to buildUp
                         }
-                        router[method](modulePrefix+(path === "/" ? '' : path),...middleWaresBuildUp,containedController[methodName] as Router.IMiddleware) // supportation for access like /index and /index/
+                        router[method](modulePrefix+(path === "/" ? '' : path),...middleWaresBuildUp,containedController[methodName].bind(containedController) as Router.IMiddleware) // supportation for access like /index and /index/
                     }
                 })
             }
