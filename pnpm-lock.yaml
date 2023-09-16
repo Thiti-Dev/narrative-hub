@@ -29,6 +29,9 @@ dependencies:
   inversify:
     specifier: ^6.0.1
     version: 6.0.1
+  jose:
+    specifier: ^4.14.6
+    version: 4.14.6
   koa:
     specifier: ^2.14.2
     version: 2.14.2
@@ -1216,6 +1219,10 @@ packages:
 
   /isarray@1.0.0:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
+    dev: false
+
+  /jose@4.14.6:
+    resolution: {integrity: sha512-EqJPEUlZD0/CSUMubKtMaYUOtWe91tZXTWMJZoKSbLk+KtdhNdcvppH8lA9XwVu2V4Ailvsj0GBZJ2ZwDjfesQ==}
     dev: false
 
   /json-stringify-safe@5.0.1:
