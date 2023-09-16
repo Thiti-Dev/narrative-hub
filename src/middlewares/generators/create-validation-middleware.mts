@@ -8,7 +8,10 @@ export function createValidationMiddleware(classBlueprint: TRegularClassType): M
     return async(ctx:Context,next:Next) => {
         const dto = plainToInstance(classBlueprint, ctx.request.body)
         const errors = validateSync(dto,{stopAtFirstError:true})
-        if(!errors.length) return await next()
+        if(!errors.length){
+            ctx.request.dto = dto // persiting the transformed body to the dto in request context
+            return await next()
+        }
         
         const properErrorResponse = errors.reduce((acc,error) => {
             const errorMessage = error.constraints ? error.constraints[Object.keys(error.constraints)[0]] : 'validate failed'
