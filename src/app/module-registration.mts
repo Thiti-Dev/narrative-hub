@@ -2,6 +2,7 @@ import Router from 'koa-router'
 import { IModulizationProperty, IRouteDescriptionMetadata, TModuleClass } from "../core/modulization/interfaces.mjs";
 import { Middleware } from 'koa';
 import { createValidationMiddleware } from '../middlewares/generators/create-validation-middleware.mjs';
+import jwt from 'koa-jwt'
 
 // modules type compromised
 export function registerModules(modules: TModuleClass[] | any[]){
@@ -32,6 +33,9 @@ export function registerModules(modules: TModuleClass[] | any[]){
                         if(config?.validationBlueprint){
                             const middlewareCreation: Middleware = createValidationMiddleware(config.validationBlueprint)
                             middleWaresBuildUp.push(middlewareCreation) // push the validation-middleware to buildUp
+                        }
+                        if(config?.authorizationNeeded){
+                            middleWaresBuildUp.push(jwt({secret: process.env.JWT_SECRET!})) // applying the jwt protected middleware to each route that has the authorization_needed flag
                         }
                         router[method](modulePrefix+(path === "/" ? '' : path),...middleWaresBuildUp,containedController[methodName].bind(containedController) as Router.IMiddleware) // supportation for access like /index and /index/
                     }
