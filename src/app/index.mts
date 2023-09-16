@@ -23,14 +23,14 @@ app.use((_ctx:Context,next:Next) => RequestContext.createAsync(orm.em,next))
 globalContainer.get(MikroORM).initialize(orm) // registering loaded orm to the singleton-global-container
 
 
+// Generic error handling middleware.
+app.use(errorHandler);
+
 app.use(registerModules([
   // place modules here
   // later will be improving this by using the dynamic module resolvation [default exportation needed in each module entry]
   ManagementModule
 ]).routes())
-
-// Generic error handling middleware.
-app.use(errorHandler);
 
 // Application error logging.
 app.on('error', console.error);
