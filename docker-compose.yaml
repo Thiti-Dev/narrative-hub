@@ -5,6 +5,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db_data:/var/lib/postgresql/data
+      - type: bind
+        source: ./postgres-data
+        target: /var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgres
