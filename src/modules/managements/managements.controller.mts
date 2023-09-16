@@ -23,4 +23,19 @@ export class ManangementController{
         const owners = await this.managementService.createOwner(ctx.request.dto as CreateOwnerBodyDTO)
         ctx.body = { data: owners }; 
     }
+
+    @DefineRoute("/login",RequestMethod.POST,{validationBlueprint:LoginBodyDTO})
+    public async login(ctx:Context,_next:Next){
+        const {success,token} = await this.managementService.login(ctx.request.dto as LoginBodyDTO)
+        if(!success){
+            return ctx.status = 401
+        }
+        ctx.body = { token }; 
+    }
+
+
+    @DefineRoute("/whoami",RequestMethod.GET,{authorizationNeeded:true})
+    public async whoami(ctx:Context,_next:Next){
+        ctx.body = { has_authority:true,data: ctx.state.user }; 
+    }
 }
