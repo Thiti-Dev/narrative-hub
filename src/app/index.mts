@@ -1,4 +1,8 @@
 import "reflect-metadata";
+
+import dotenv from 'dotenv'
+dotenv.config()
+
 import Koa, { Context, Next } from 'koa';
 import logger from 'koa-logger'
 import json from 'koa-json'
