@@ -32,6 +32,9 @@ dependencies:
   react-scripts:
     specifier: 5.0.1
     version: 5.0.1(@babel/plugin-syntax-flow@7.22.5)(@babel/plugin-transform-react-jsx@7.22.15)(eslint@8.49.0)(react@18.2.0)(typescript@5.2.2)
+  tss-react:
+    specifier: ^4.9.0
+    version: 4.9.0(@emotion/react@11.11.1)(react@18.2.0)
   web-vitals:
     specifier: ^3.4.0
     version: 3.4.0
@@ -9885,6 +9888,23 @@ packages:
 
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
+    dev: false
+
+  /tss-react@4.9.0(@emotion/react@11.11.1)(react@18.2.0):
+    resolution: {integrity: sha512-dgqNSR9J0+NxvdwzXoKo2HxGGu2sg0UikLnPumGNLa9CSPVcL6ZNu23CJwxPaMvRnQC8NRyNbUN3pBCS9AWwRA==}
+    peerDependencies:
+      '@emotion/react': ^11.4.1
+      '@emotion/server': ^11.4.0
+      react: ^16.8.0 || ^17.0.2 || ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/server':
+        optional: true
+    dependencies:
+      '@emotion/cache': 11.11.0
+      '@emotion/react': 11.11.1(@types/react@18.2.21)(react@18.2.0)
+      '@emotion/serialize': 1.1.2
+      '@emotion/utils': 1.2.1
+      react: 18.2.0
     dev: false
 
   /tsutils@3.21.0(typescript@5.2.2):
