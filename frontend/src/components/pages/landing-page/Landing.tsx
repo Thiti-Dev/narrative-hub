@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles, withStyles } from "tss-react/mui";
-import {Container, Grid, Typography,Link,Card,CardActions,CardMedia,CardContent} from '@mui/material'
-import {Instagram,Facebook} from '@mui/icons-material'
+import {Container, Grid, Typography,Link,Card,CardActions,CardMedia,CardContent, Button} from '@mui/material'
+import {Instagram,Facebook, KeyOutlined} from '@mui/icons-material'
 import githubProfile from '../../../assets/images/github-profile.png'
 import ArticleCard from '../../articles/ArticleCard';
 
@@ -10,6 +10,11 @@ export default function Landing() {
 
   return (
     <Container maxWidth={false} className={classes.container}>
+        <Link href="master-verification" underline="none">
+            <Button className={classes.authenticateNavigation} variant="outlined" startIcon={<KeyOutlined/>}>
+                You are me?
+            </Button>
+        </Link>
         <Grid container spacing={2} justifyContent="center" alignItems="center" direction="column">
             <Grid item xs={12}>
                 <img src={githubProfile} alt="github-profile" className={classes.profileImage}/>
@@ -105,6 +110,9 @@ const useStyles = makeStyles()(
             rowGap: '20px',
             //columnGap:'10px',
             justifyContent:'center' // centering in grid when grid doesn't have any element to fill up the grid and left desolated also came from dimnishing the screen size
+        },
+        authenticateNavigation:{
+            float:'right'
         }
     })
 );
