@@ -7,6 +7,7 @@ import Koa, { Context, Next } from 'koa';
 import logger from 'koa-logger'
 import json from 'koa-json'
 import bodyParser from 'koa-bodyparser'
+import cors from '@koa/cors'
 import errorHandler from '../middlewares/error-handler.mjs';
 import { registerModules } from "./module-registration.mjs";
 import { ManagementModule } from "../modules/managements/managements.module.mjs";
@@ -15,10 +16,11 @@ import { orm } from "../databases/mikrorm/mikrorm.config.mjs";
 import { globalContainer } from "../global/inversify.container.mjs";
 import { MikroORM } from "../databases/mikrorm/instance.mjs";
 
-const PORT: number = 3000
+const PORT: number = 5000
 
 const app: Koa = new Koa();
 
+app.use(cors())
 app.use(json())
 app.use(logger())
 app.use(bodyParser())
