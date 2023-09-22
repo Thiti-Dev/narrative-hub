@@ -33,12 +33,15 @@ globalContainer.get(MikroORM).initialize(orm) // registering loaded orm to the s
 // Generic error handling middleware.
 app.use(errorHandler);
 
-app.use(registerModules([
+const router = registerModules([
   // place modules here
   // later will be improving this by using the dynamic module resolvation [default exportation needed in each module entry]
   ManagementModule,
   WriteupModule
-]).routes())
+])
+
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 // Application error logging.
 app.on('error', console.error);
