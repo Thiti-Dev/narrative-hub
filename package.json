@@ -34,7 +34,8 @@
     "koa-logger": "^3.2.1",
     "koa-proxies": "^0.12.3",
     "koa-router": "^12.0.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "snakecase-keys": "^5.4.7"
   },
   "devDependencies": {
     "@mikro-orm/cli": "^5.8.1",
