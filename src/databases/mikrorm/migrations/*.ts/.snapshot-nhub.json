@@ -118,6 +118,15 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "cover_image_key": {
+          "name": "cover_image_key",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
         "content_data": {
           "name": "content_data",
           "type": "varchar(255)",

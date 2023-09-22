@@ -1,7 +1,7 @@
 import { BeforeCreate, Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core"
 import { Owner } from "../../managements/entities/owner.entity.js"
 import { Expose } from "class-transformer"
-import { CONTENT_DATA_FIELD_NAME, CREATED_AT_FIELD_NAME, IS_PUBLISHED_FIELD_NAME, OWNER_ID_FIELD_NAME, UPDATED_AT_FIELD_NAME } from "../../../constants/field-names.mjs"
+import { CONTENT_DATA_FIELD_NAME, COVER_IMAGE_KEY, CREATED_AT_FIELD_NAME, IS_PUBLISHED_FIELD_NAME, OWNER_ID_FIELD_NAME, UPDATED_AT_FIELD_NAME } from "../../../constants/field-names.mjs"
 
 @Entity({tableName:'writeups'})
 export class Writeup{
@@ -16,6 +16,9 @@ export class Writeup{
 
     @Property()
     topic!: string;
+
+    @Property({name:COVER_IMAGE_KEY,serializedName:COVER_IMAGE_KEY,nullable:true})
+    coverImageKey?: string
 
     @Property({name: CONTENT_DATA_FIELD_NAME,serializedName:CONTENT_DATA_FIELD_NAME})
     contentData!: string;
