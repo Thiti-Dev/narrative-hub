@@ -15,6 +15,7 @@ import { RequestContext } from "@mikro-orm/core";
 import { orm } from "../databases/mikrorm/mikrorm.config.mjs";
 import { globalContainer } from "../global/inversify.container.mjs";
 import { MikroORM } from "../databases/mikrorm/instance.mjs";
+import { WriteupModule } from "../modules/writeups/writeups.module.mjs";
 
 const PORT: number = 5000
 
@@ -35,7 +36,8 @@ app.use(errorHandler);
 app.use(registerModules([
   // place modules here
   // later will be improving this by using the dynamic module resolvation [default exportation needed in each module entry]
-  ManagementModule
+  ManagementModule,
+  WriteupModule
 ]).routes())
 
 // Application error logging.
