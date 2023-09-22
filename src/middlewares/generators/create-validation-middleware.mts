@@ -2,6 +2,7 @@ import { plainToInstance } from "class-transformer"
 import { validateSync } from "class-validator"
 import { Context, Middleware, Next } from "koa"
 import { TRegularClassType } from "../../core/modulization/interfaces.mjs"
+import snakecaseKeys from 'snakecase-keys'
 
 // need an implementation for nested validation
 export function createValidationMiddleware(classBlueprint: TRegularClassType): Middleware{
@@ -12,11 +13,11 @@ export function createValidationMiddleware(classBlueprint: TRegularClassType): M
             ctx.request.dto = dto // persiting the transformed body to the dto in request context
             return await next()
         }
-        
-        const properErrorResponse = errors.reduce((acc,error) => {
+        console.log(errors)
+        const properErrorResponse = snakecaseKeys(errors.reduce((acc,error) => {
             const errorMessage = error.constraints ? error.constraints[Object.keys(error.constraints)[0]] : 'validate failed'
-            return Object.assign(acc,{[error.property]: errorMessage})
-        },{})
+            return Object.assign(acc,{[error.property]: errorMessage.substring(error.property.length + 1)})
+        },{}))
         ctx.status = 422 // Unprocessable Entity being used because it's easier to distinguish from the frontwork
         ctx.body = properErrorResponse
     }
