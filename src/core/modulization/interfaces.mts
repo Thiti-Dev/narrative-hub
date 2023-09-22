@@ -1,5 +1,6 @@
 import {Container} from "inversify"
 import { RequestMethod } from "../shared/enums/common.mjs";
+import type {Field} from '@koa/multer'
 export type TRegularClassType = { new(...args: any[]): any; }
 type TControllerClass = TRegularClassType
 type TServiceClass = TRegularClassType
@@ -25,7 +26,21 @@ export interface IRouteDescriptionMetadata{
     method: RequestMethod
 }
 
+
+// private -----
+interface IUploadBlueprintMulti{
+    multi: true
+    multiFieldsData: Field[]
+}
+
+interface IUploadBlueprintSingle{
+    multi?: false | undefined
+    fieldName: string
+}
+//-----------------
+
 export interface IRouteDefinitionOption{
-    authorizationNeeded?: boolean,
+    authorizationNeeded?: boolean
     validationBlueprint?: TRegularClassType
+    uploadBlueprint?: IUploadBlueprintMulti | IUploadBlueprintSingle
 }
