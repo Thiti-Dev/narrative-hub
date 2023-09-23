@@ -1,7 +1,7 @@
 import { BeforeCreate, Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core"
 import { Owner } from "../../managements/entities/owner.entity.js"
 import { Expose } from "class-transformer"
-import { CONTENT_DATA_FIELD_NAME, COVER_IMAGE_KEY, CREATED_AT_FIELD_NAME, IS_PUBLISHED_FIELD_NAME, OWNER_ID_FIELD_NAME, UPDATED_AT_FIELD_NAME } from "../../../constants/field-names.mjs"
+import { CONTENT_DATA_FIELD_NAME, COVER_IMAGE_KEY, COVER_IMAGE_URL, CREATED_AT_FIELD_NAME, IS_PUBLISHED_FIELD_NAME, OWNER_ID_FIELD_NAME, UPDATED_AT_FIELD_NAME } from "../../../constants/field-names.mjs"
 
 @Entity({tableName:'writeups'})
 export class Writeup{
@@ -42,5 +42,11 @@ export class Writeup{
   
     @Property({name:UPDATED_AT_FIELD_NAME,serializedName:UPDATED_AT_FIELD_NAME, onUpdate: () => new Date(),nullable:true })
     updatedAt?: Date = new Date();
+
+
+    // Be serializing later - Shadowing only for futher manually assigning
+    @Property({name: COVER_IMAGE_URL,serializedName:COVER_IMAGE_URL,persist:false})
+    coverImageURL?: string | null
+    // -------------------------------------------------------------------
   
 }
