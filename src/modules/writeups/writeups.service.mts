@@ -25,10 +25,8 @@ export class WriteupService{
     public async listWriteups(){
         const writeups = await this.orm.getEntityManager().find(Writeup,{},{populate:['owner']})
         return Promise.all(writeups.map(async(writeup) => {
-            return {
-                ...writeup,
-                ...(writeup.coverImageKey ? {coverImageKey: await this.storage.createPresignedURLFromKey(writeup.coverImageKey,3600)} : {})
-            }
+            writeup.coverImageURL = writeup.coverImageKey ? await this.storage.createPresignedURLFromKey(writeup.coverImageKey,3600) : null
+            return writeup
         }))
     }
 }
