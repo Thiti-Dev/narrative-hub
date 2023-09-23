@@ -18,6 +18,11 @@ export function createValidationMiddleware(classBlueprint: TRegularClassType): M
             return Object.assign(acc,{[error.property]: errorMessage.substring(error.property.length + 1)})
         },{}))
         ctx.status = 422 // Unprocessable Entity being used because it's easier to distinguish from the frontwork
-        ctx.body = properErrorResponse
+        ctx.body = {
+            ...snakecaseKeys(
+                {errorCode:1,errorType:'validation_error'}
+            ),
+            errors:properErrorResponse
+        }
     }
 }
