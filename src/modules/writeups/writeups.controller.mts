@@ -13,7 +13,7 @@ export class WriteupController{
     }
 
 
-    @DefineRoute("/create",RequestMethod.POST,{validationBlueprint:CreateWriteupBodyDTO,authorizationNeeded:true,uploadBlueprint:{multi:false,fieldName:'file'}})
+    @DefineRoute("/create",RequestMethod.POST,{validationBlueprint:CreateWriteupBodyDTO,authorizationNeeded:true,uploadBlueprint:{multi:false,fieldName:'file',allowedMimes:['image/jpeg','image/jpg','image/png'],fileSizeInMB:5}})
     public async createWriteup(ctx:Context,_next:Next){
         const writeup = await this.writeupService.createWriteup(ctx.request.dto as CreateWriteupBodyDTO,ctx.state.user.id,ctx.file)
         ctx.status = 201;

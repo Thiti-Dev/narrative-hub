@@ -3,7 +3,6 @@ import { IModulizationProperty, IRouteDescriptionMetadata, TModuleClass } from "
 import { Middleware } from 'koa';
 import { createValidationMiddleware } from '../middlewares/generators/create-validation-middleware.mjs';
 import jwt from 'koa-jwt'
-import multer from '@koa/multer';
 import { createUploadMiddleware } from '../middlewares/generators/create-upload-middleware.mjs';
 
 
@@ -13,7 +12,6 @@ export function registerModules(modules: TModuleClass[] | any[]){
 
     const router = new Router()
     const METHOD_OWN_KEY_EXCLUSION = ["constructor"]
-    const upload = multer({storage:multer.memoryStorage()})
     modules.forEach((module: TModuleClass) => {
         // complement each module
         console.log(`Module: ${module.name}`)
@@ -44,7 +42,7 @@ export function registerModules(modules: TModuleClass[] | any[]){
 
                         // -----------------------------------------------------------------------------------
 
-                        config?.uploadBlueprint && middleWaresBuildUp.push(createUploadMiddleware(upload,config.uploadBlueprint)) // multer already done the multipart-parser with the combination of json-parser implemented by koa-body which doesn't create any conflict
+                        config?.uploadBlueprint && middleWaresBuildUp.push(createUploadMiddleware(config.uploadBlueprint)) // multer already done the multipart-parser with the combination of json-parser implemented by koa-body which doesn't create any conflict
 
                         config?.validationBlueprint && middleWaresBuildUp.push(createValidationMiddleware(config.validationBlueprint))
                         
