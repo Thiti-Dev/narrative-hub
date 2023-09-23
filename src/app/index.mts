@@ -6,7 +6,7 @@ dotenv.config()
 import Koa, { Context, Next } from 'koa';
 import logger from 'koa-logger'
 import json from 'koa-json'
-import bodyParser from 'koa-bodyparser'
+import {koaBody} from 'koa-body'
 import cors from '@koa/cors'
 import errorHandler from '../middlewares/error-handler.mjs';
 import { registerModules } from "./module-registration.mjs";
@@ -24,8 +24,9 @@ const app: Koa = new Koa();
 app.use(cors())
 app.use(json())
 app.use(logger())
-app.use(bodyParser())
-
+// -----
+app.use(koaBody({multipart:false,json:true})) // only using JSON feature because multipart here is suck <buffer isn't available at first as it is originated uploading to tmpDir>
+// -----
 app.use((_ctx:Context,next:Next) => RequestContext.createAsync(orm.em,next))
 globalContainer.get(MikroORM).initialize(orm) // registering loaded orm to the singleton-global-container
 
