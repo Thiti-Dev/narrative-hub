@@ -14,7 +14,6 @@ export class WriteupService{
     }
 
     public async createWriteup(dto: CreateWriteupBodyDTO,ownerID: number,coverImageFile?: File){
-        console.log(coverImageFile)
         const writeup = new Writeup(dto.topic,dto.contentData,ownerID)
         if(coverImageFile){
             writeup.coverImageKey = await this.storage.uploadFile(coverImageFile,`${+new Date()}_${coverImageFile.originalname}`,'writeups',true)
