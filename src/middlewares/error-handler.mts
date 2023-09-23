@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import Koa from 'koa'
 import type {Context,Next} from 'koa'
 
-export default async (ctx: Koa.Context, next: () => Promise<any>) => {
+export default async (ctx: Koa.Context, next: Next) => {
     try {
       await next();
     } catch (error:any) {
