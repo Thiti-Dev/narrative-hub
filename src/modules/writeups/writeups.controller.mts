@@ -13,9 +13,9 @@ export class WriteupController{
     }
 
 
-    @DefineRoute("/create",RequestMethod.POST,{validationBlueprint:CreateWriteupBodyDTO,authorizationNeeded:true})
+    @DefineRoute("/create",RequestMethod.POST,{validationBlueprint:CreateWriteupBodyDTO,authorizationNeeded:true,uploadBlueprint:{multi:false,fieldName:'file'}})
     public async createWriteup(ctx:Context,_next:Next){
-        const writeup = await this.writeupService.createWriteup(ctx.request.dto as CreateWriteupBodyDTO,ctx.state.user.id)
+        const writeup = await this.writeupService.createWriteup(ctx.request.dto as CreateWriteupBodyDTO,ctx.state.user.id,ctx.file)
         ctx.status = 201;
         ctx.body = { data: writeup }; 
     }
