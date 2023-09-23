@@ -1,7 +1,8 @@
-import { Context, Middleware, Next } from "koa";
-import type {Instance} from '@koa/multer'
-import { IRouteDefinitionOption } from "../../core/modulization/interfaces.mjs";
+import {Middleware} from "koa"
+import { IRouteDefinitionOption } from "../../core/modulization/interfaces.mjs"
+import { Instance } from "@koa/multer"
 
-export function createUploadMiddleware(multerInstance: Instance,blueprint: IRouteDefinitionOption['uploadBlueprint']): Middleware{
-    return blueprint?.multi ? multerInstance.fields(blueprint.multiFieldsData) : multerInstance.single(blueprint?.fieldName)
+
+export function createUploadMiddleware(instance:Instance,blueprint: IRouteDefinitionOption['uploadBlueprint']): Middleware{
+    return blueprint?.multi ? instance.fields(blueprint.multiFieldsData) : instance.single(blueprint?.fieldName)
 }
