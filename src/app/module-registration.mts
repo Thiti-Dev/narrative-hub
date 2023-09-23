@@ -3,7 +3,7 @@ import { IModulizationProperty, IRouteDescriptionMetadata, TModuleClass } from "
 import { Middleware } from 'koa';
 import { createValidationMiddleware } from '../middlewares/generators/create-validation-middleware.mjs';
 import jwt from 'koa-jwt'
-import multer from '@koa/multer'
+import multer from '@koa/multer';
 import { createUploadMiddleware } from '../middlewares/generators/create-upload-middleware.mjs';
 
 
@@ -12,8 +12,8 @@ export function registerModules(modules: TModuleClass[] | any[]){
     //registering module
 
     const router = new Router()
-    const upload = multer({storage: multer.memoryStorage()})
     const METHOD_OWN_KEY_EXCLUSION = ["constructor"]
+    const upload = multer({storage:multer.memoryStorage()})
     modules.forEach((module: TModuleClass) => {
         // complement each module
         console.log(`Module: ${module.name}`)
@@ -36,11 +36,20 @@ export function registerModules(modules: TModuleClass[] | any[]){
                         let middleWaresBuildUp:Middleware[] = [];
 
 
-                        config?.validationBlueprint && middleWaresBuildUp.push(createValidationMiddleware(config.validationBlueprint))
+                        // Can't use these [conflicts in listening req body chunk <has to select only one>]
 
+                        //config?.useMultipartParser && middleWaresBuildUp.push(multipartParser())
+
+                        //config?.uploadBlueprint && middleWaresBuildUp.push(createUploadMiddleware(upload,config?.uploadBlueprint))
+
+                        // -----------------------------------------------------------------------------------
+
+                        config?.uploadBlueprint && middleWaresBuildUp.push(createUploadMiddleware(upload,config.uploadBlueprint)) // multer already done the multipart-parser with the combination of json-parser implemented by koa-body which doesn't create any conflict
+
+                        config?.validationBlueprint && middleWaresBuildUp.push(createValidationMiddleware(config.validationBlueprint))
+                        
                         config?.authorizationNeeded && middleWaresBuildUp.push(jwt({secret: process.env.JWT_SECRET!})) // applying the jwt protected middleware to each route that has the authorization_needed flag
-                                      
-                        config?.uploadBlueprint && middleWaresBuildUp.push(createUploadMiddleware(upload,config?.uploadBlueprint))
+                                    
                         
                         router[method](modulePrefix+(path === "/" ? '' : path),...middleWaresBuildUp as unknown as IMiddleware<any, {}>[],containedController[methodName].bind(containedController) as Router.IMiddleware) // supportation for access like /index and /index/ ------ Casting to unknown needed because having the @koa/multer imported will override some koa type declaration and make the middleware build up broken 3.0.2 / @types/koa__multer
                     }
