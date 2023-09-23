@@ -14,6 +14,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 import * as mime from 'mime-types';
 import type {File} from '@koa/multer'
+import { removeFileExtension } from "../../utilities/common/remove-file-ext.mjs";
 @injectable()
 export class S3StorageService{
     private s3client: S3Client;
@@ -49,7 +50,7 @@ export class S3StorageService{
         const uploadParams: PutObjectCommandInput = {
           Bucket: this.bucket,
           Body: file.buffer,
-          Key: path + '/' + filename,
+          Key: path + '/' + removeFileExtension(filename),
         };
         if (useExtensionFromMimeType) {
           uploadParams.Key = uploadParams.Key + '.' + mime.extension(file.mimetype);
