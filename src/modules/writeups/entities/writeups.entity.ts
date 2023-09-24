@@ -20,7 +20,7 @@ export class Writeup{
     @Property({name:COVER_IMAGE_KEY,serializedName:COVER_IMAGE_KEY,nullable:true})
     coverImageKey?: string
 
-    @Property({name: CONTENT_DATA_FIELD_NAME,serializedName:CONTENT_DATA_FIELD_NAME})
+    @Property({name: CONTENT_DATA_FIELD_NAME,serializedName:CONTENT_DATA_FIELD_NAME,type:'text'})
     contentData!: string;
 
     @Property({name: IS_PUBLISHED_FIELD_NAME,serializedName:IS_PUBLISHED_FIELD_NAME,default: false})

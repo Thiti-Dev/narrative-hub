@@ -129,12 +129,12 @@
         },
         "content_data": {
           "name": "content_data",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "is_published": {
           "name": "is_published",
