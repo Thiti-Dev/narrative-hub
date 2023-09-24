@@ -20,6 +20,15 @@ export class WriteupController{
         ctx.body = { data: writeup }; 
     }
 
+    @DefineRoute("/:id/detail",RequestMethod.GET)
+    public async viewWriteup(ctx:Context,_next:Next){
+        const writeup = await this.writeupService.viewWriteup(ctx.params.id)
+        if(!writeup){
+            return ctx.status = 404
+        }
+        ctx.body = { data: writeup }; 
+    }
+
 
     @DefineRoute("/list",RequestMethod.GET)
     public async list(ctx:Context,_next:Next){
