@@ -29,6 +29,12 @@ export class WriteupController{
         ctx.body = { data: writeup }; 
     }
 
+    @DefineRoute("/:id/delete",RequestMethod.DELETE)
+    public async deleteWriteup(ctx:Context,_next:Next){
+        await this.writeupService.deleteWriteup(ctx.params.id)
+        ctx.body = { success: true}; 
+    }
+
 
     @DefineRoute("/list",RequestMethod.GET)
     public async list(ctx:Context,_next:Next){

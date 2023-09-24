@@ -30,6 +30,14 @@ export class WriteupService{
         return writeup
     }
 
+    public async deleteWriteup(id: number){
+        const writeup = await this.orm.getEntityManager().findOne(Writeup,{id})
+        if(writeup){
+            await this.orm.getEntityManager().removeAndFlush(writeup)
+        }
+        return writeup
+    }
+
     public async listWriteups(){
         const writeups = await this.orm.getEntityManager().find(Writeup,{},{populate:['owner']})
         return Promise.all(writeups.map(async(writeup) => {
