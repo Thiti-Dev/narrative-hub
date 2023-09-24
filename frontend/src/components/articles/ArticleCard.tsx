@@ -1,22 +1,27 @@
 import React, { useEffect } from 'react'
 import {Container, Grid, Typography,Link,Card,CardActions,CardMedia,CardContent} from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 type TProps = {
   topic:string,
   header: string,
   coverImageURL:string
+  id:number
 }
 
-const ArticleCard = React.memo(({header,topic,coverImageURL}: TProps) => {
+const ArticleCard = React.memo(({header,topic,coverImageURL,id}: TProps) => {
+
+  const navigate = useNavigate()
+
   let trimHeader = header
   if(header.length > 108){
     trimHeader = header.substring(0,108) + " . . ."
   }
   return (
-    <Card raised sx={{ maxWidth: 345, height: '300px',cursor:'pointer' }}>
+    <Card raised sx={{ maxWidth: 345, height: '300px',cursor:'pointer' }} onClick={() => navigate(`/writeups/${id}`)}>
       <CardMedia
         sx={{ height: 140 }}
-        image={coverImageURL ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/1200px-FullMoon2010.jpg"}
+        image={coverImageURL ?? "https://i.pinimg.com/originals/9a/de/dd/9adedde0c19cabfcdc4e0f1ccde19cb0.jpg"}
         title={topic}
       />
       <CardContent>

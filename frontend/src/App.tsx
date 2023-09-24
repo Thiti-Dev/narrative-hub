@@ -8,10 +8,12 @@ import { GlobalProvider } from './contexts/global/global-context';
 import ProtectedRoute from './components/guards/protected-route';
 import CreatePost from './components/pages/master-page/views/create-post';
 import { createProtectedComponent } from './utilities/misc/create-protected-component';
+import ViewWriteup from './components/pages/writeups-page/views/view-writeup';
+import useAuthenticationManagement from './hooks/use-authentication-management';
 
 function App() {
   const loadingBarRef = useRef<LoadingBarRef>(null);
-
+  useAuthenticationManagement()
   return (
     <>
     <GlobalProvider loadingBarRef={loadingBarRef}>
@@ -21,6 +23,7 @@ function App() {
           <Route path='/' Component={Landing}/>
           <Route path='/master-verification' Component={MasterVerification}/>
           <Route path='/create-post' element={createProtectedComponent(<CreatePost/>)}/>
+          <Route path='/writeups/:writeupID' Component={ViewWriteup}/>
         </Routes>
       </Router>
     </GlobalProvider>

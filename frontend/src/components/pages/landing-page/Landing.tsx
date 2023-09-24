@@ -6,6 +6,7 @@ import githubProfile from '../../../assets/images/github-profile.png'
 import ArticleCard from '../../articles/ArticleCard';
 import useSWR from 'swr'
 import { AppCore } from '../../../core/app-core';
+import { useNavigate } from 'react-router-dom';
 
 export default function Landing() {
     const {cx,classes} = useStyles()
@@ -13,7 +14,7 @@ export default function Landing() {
 
     const renderedArticles = useMemo(() => {
         if(!data?.data) return null
-        return data.data.map((data:any,index:number) => <ArticleCard key={index} topic={data.topic} header={data.content_data} coverImageURL={data.cover_image_url}/>)
+        return data.data.map((data:any,index:number) => <ArticleCard key={index} id={data.id}  topic={data.topic} header={data.content_data} coverImageURL={data.cover_image_url}/>)
     },[data]) 
     
     return (
