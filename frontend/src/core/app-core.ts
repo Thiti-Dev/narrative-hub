@@ -10,6 +10,8 @@ export class AppCore{
         } catch (error) {
             return false
         }
-        
+    }
+    public static getAxiosAsFetcher(){
+        return (url:string) => axiosDefaultInstance.get(url).then((res) => res.data)
     }
 }

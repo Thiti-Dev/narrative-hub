@@ -1,22 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Container, Grid, Typography,Link,Card,CardActions,CardMedia,CardContent} from '@mui/material'
 
-export default function ArticleCard() {
+type TProps = {
+  topic:string,
+  header: string,
+  coverImageURL:string
+}
+
+const ArticleCard = React.memo(({header,topic,coverImageURL}: TProps) => {
+  let trimHeader = header
+  if(header.length > 108){
+    trimHeader = header.substring(0,108) + " . . ."
+  }
   return (
-    <Card raised sx={{ maxWidth: 345,cursor:'pointer' }}>
+    <Card raised sx={{ maxWidth: 345, height: '300px',cursor:'pointer' }}>
       <CardMedia
         sx={{ height: 140 }}
-        image="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/1200px-FullMoon2010.jpg"
-        title="green iguana"
+        image={coverImageURL ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/1200px-FullMoon2010.jpg"}
+        title={topic}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Exploring tss-react
+          {topic}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-            I just got back into programming world and so many things have come around while I was on the honeymoon period . . .
+        <Typography sx={{height:'60px',overflow:'hidden'}} variant="body2" color="text.secondary">
+            {trimHeader}
         </Typography>
       </CardContent>
     </Card>
   );
-}
+})
+
+export default ArticleCard

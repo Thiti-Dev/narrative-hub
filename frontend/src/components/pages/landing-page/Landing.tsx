@@ -1,64 +1,56 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { makeStyles, withStyles } from "tss-react/mui";
 import {Container, Grid, Typography,Link,Card,CardActions,CardMedia,CardContent, Button} from '@mui/material'
 import {Instagram,Facebook, KeyOutlined} from '@mui/icons-material'
 import githubProfile from '../../../assets/images/github-profile.png'
 import ArticleCard from '../../articles/ArticleCard';
+import useSWR from 'swr'
+import { AppCore } from '../../../core/app-core';
 
 export default function Landing() {
     const {cx,classes} = useStyles()
+    const {data,error,isLoading} = useSWR('/writeups/list',AppCore.getAxiosAsFetcher())
 
-  return (
-    <Container maxWidth={false} className={classes.container}>
-        <Link href="master-verification" underline="none">
-            <Button className={classes.authenticateNavigation} variant="outlined" startIcon={<KeyOutlined/>}>
-                You are me?
-            </Button>
-        </Link>
-        <Grid container spacing={2} justifyContent="center" alignItems="center" direction="column">
-            <Grid item xs={12}>
-                <img src={githubProfile} alt="github-profile" className={classes.profileImage}/>
-            </Grid>
-            <Grid item xs={12}>
-                <Typography variant="h6">Thiti-Dev </Typography>
-            </Grid>
-            <Grid item xs={12}>
-                <div className={classes.socialLinkContainerRoot}>
-                    <div className={classes.socialLinkContainer}>
-                        <Instagram fontSize='large'/>
-                        <Link href="https://www.instagram.com/thiti.mwk">thiti.mwk</Link>
-                    </div>
+    const renderedArticles = useMemo(() => {
+        if(!data?.data) return null
+        return data.data.map((data:any,index:number) => <ArticleCard key={index} topic={data.topic} header={data.content_data} coverImageURL={data.cover_image_url}/>)
+    },[data]) 
+    
+    return (
+        <Container maxWidth={false} className={classes.container}>
+            <Link href="master-verification" underline="none">
+                <Button className={classes.authenticateNavigation} variant="outlined" startIcon={<KeyOutlined/>}>
+                    You are me?
+                </Button>
+            </Link>
+            <Grid container spacing={2} justifyContent="center" alignItems="center" direction="column">
+                <Grid item xs={12}>
+                    <img src={githubProfile} alt="github-profile" className={classes.profileImage}/>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="h6">Thiti-Dev</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <div className={classes.socialLinkContainerRoot}>
+                        <div className={classes.socialLinkContainer}>
+                            <Instagram fontSize='large'/>
+                            <Link href="https://www.instagram.com/thiti.mwk">thiti.mwk</Link>
+                        </div>
 
-                    <div className={classes.socialLinkContainer}>
-                        <Facebook fontSize='large'/>
-                        <Link href="https://www.facebook.com/thiti.dev.5">Thiti-Dev</Link>
+                        <div className={classes.socialLinkContainer}>
+                            <Facebook fontSize='large'/>
+                            <Link href="https://www.facebook.com/thiti.dev.5">Thiti-Dev</Link>
+                        </div>
                     </div>
+                </Grid>
+                <div className={classes.underline}/>
+            </Grid>
+            <div className={classes.contentGridContainerHolder}>
+                <div className={classes.mainGrid}>
+                    {renderedArticles}
                 </div>
-            </Grid>
-            <div className={classes.underline}/>
-        </Grid>
-        <div className={classes.contentGridContainerHolder}>
-            <div className={classes.mainGrid}>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-                <ArticleCard/>
-
             </div>
-        </div>
-    </Container>
+        </Container>
   )
 }
 
