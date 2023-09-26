@@ -1,16 +1,25 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { makeStyles, withStyles } from "tss-react/mui";
 import {Container, Grid, Typography,Link,Card,CardActions,CardMedia,CardContent, Button} from '@mui/material'
-import {Instagram,Facebook, KeyOutlined} from '@mui/icons-material'
+import {Instagram,Facebook, KeyOutlined,Add} from '@mui/icons-material'
 import githubProfile from '../../../assets/images/github-profile.png'
 import ArticleCard from '../../articles/ArticleCard';
 import useSWR from 'swr'
 import { AppCore } from '../../../core/app-core';
 import { useNavigate } from 'react-router-dom';
+import { useAuthenticationStore } from '../../../states/authentication';
+import { useLoadingBar } from '../../../contexts/global/hooks/useLoadingBar';
 
 export default function Landing() {
     const {cx,classes} = useStyles()
     const {data,error,isLoading} = useSWR('/writeups/list',AppCore.getAxiosAsFetcher())
+    const loadingBar = useLoadingBar()
+    const isAuthenticated = useAuthenticationStore((state) => state.isAuthenticated)
+
+    useEffect(() => {
+        if(isLoading) return loadingBar?.continuousStart()
+        return loadingBar?.complete()
+    },[isLoading])
 
     const renderedArticles = useMemo(() => {
         if(!data?.data) return null
@@ -19,11 +28,15 @@ export default function Landing() {
     
     return (
         <Container maxWidth={false} className={classes.container}>
-            <Link href="master-verification" underline="none">
+            {!isAuthenticated ? <Link href="master-verification" underline="none">
                 <Button className={classes.authenticateNavigation} variant="outlined" startIcon={<KeyOutlined/>}>
                     You are me?
                 </Button>
-            </Link>
+            </Link> : <Link href="create-post" underline="none">
+                <Button className={classes.authenticateNavigation} variant="contained" startIcon={<Add/>}>
+                    Create write up
+                </Button>
+            </Link>}
             <Grid container spacing={2} justifyContent="center" alignItems="center" direction="column">
                 <Grid item xs={12}>
                     <img src={githubProfile} alt="github-profile" className={classes.profileImage}/>
@@ -105,7 +118,8 @@ const useStyles = makeStyles()(
             justifyContent:'center' // centering in grid when grid doesn't have any element to fill up the grid and left desolated also came from dimnishing the screen size
         },
         authenticateNavigation:{
-            float:'right'
+            float:'right',
+            marginTop:'10px'
         }
     })
 );
