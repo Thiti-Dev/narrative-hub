@@ -14,7 +14,7 @@ export default function Landing() {
 
     const renderedArticles = useMemo(() => {
         if(!data?.data) return null
-        return data.data.map((data:any,index:number) => <ArticleCard key={index} id={data.id}  topic={data.topic} header={data.content_data} coverImageURL={data.cover_image_url}/>)
+        return data.data.map((data:any,index:number) => <ArticleCard key={index}  elevateOnHover id={data.id}  topic={data.topic} rawContentData={data.content_data} coverImageURL={data.cover_image_url}/>)
     },[data]) 
     
     return (
