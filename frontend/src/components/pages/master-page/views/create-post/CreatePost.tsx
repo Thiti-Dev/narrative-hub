@@ -90,7 +90,7 @@ export default function CreatePost() {
 
     return (
         <Container maxWidth='xl'>
-            <Breadcrumbs aria-label="breadcrumb">
+            <Breadcrumbs sx={{marginTop:'10px'}} aria-label="breadcrumb">
                 <Link
                 underline="hover"
                 sx={{ display: 'flex', alignItems: 'center' }}
