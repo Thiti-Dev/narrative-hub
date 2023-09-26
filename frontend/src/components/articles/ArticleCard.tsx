@@ -19,7 +19,7 @@ const ArticleCard = React.memo(({rawContentData,topic,coverImageURL,id,elevateOn
 
   let trimHeader = rawContentData
 
-  if(rawContentData.length > 108){
+  if(rawContentData){
     try {
       const contentData: RawDraftContentState = JSON.parse(rawContentData)
       let accumulatedText: string = ""
@@ -34,6 +34,7 @@ const ArticleCard = React.memo(({rawContentData,topic,coverImageURL,id,elevateOn
       if(accumulatedText.length > 108){
         trimHeader = accumulatedText.substring(0,108) + ". . ."
       }
+      trimHeader = accumulatedText
     } catch {
       // recieved the invalid content data
       trimHeader = "Invalid content information"
