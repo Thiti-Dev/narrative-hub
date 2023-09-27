@@ -6,7 +6,7 @@ import { AppCore, axiosDefaultInstance } from '../../../../../core/app-core'
 import { useLoadingBar } from '../../../../../contexts/global/hooks/useLoadingBar'
 import { Breadcrumbs, Button, Container, Fab, IconButton, Link, Skeleton, Typography } from '@mui/material'
 import { useStyles } from './styles'
-import { Home,BurstModeSharp,Person2,DeleteOutlineOutlined, ArrowUpward } from '@mui/icons-material'
+import { Home,BurstModeSharp,Person2,DeleteOutlineOutlined } from '@mui/icons-material'
 
 import { Editor } from 'react-draft-wysiwyg';
 import { RawDraftContentState, EditorState, convertFromRaw, CompositeDecorator } from 'draft-js'
@@ -16,6 +16,7 @@ import { useAuthenticationStore } from '../../../../../states/authentication'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { CodeBlock, dracula } from "react-code-blocks";
+import { useInView } from 'react-intersection-observer';
 
 import cusorUpwardImage from '../../../../../assets/images/scroll-up.png'
 
@@ -44,8 +45,15 @@ const WrappedCodeBlockRenderer = ({code,language}:  {code:string,language:string
 export default function ViewWriteup() {
   const {writeupID} = useParams<{writeupID:string}>()
 
+  // For proper determination whether should be setting background image to be visible or not depends on its readiness
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { ref: headerRef, inView: headerInView } = useInView({
+    triggerOnce: true, // Only trigger the observer once
+    threshold: 0.1,    // When at least 10% of the element is visible
+  });
 
-  const {data,error,isLoading} = useSWR<{data:{topic:string,cover_image_url:string,owner:any,content_data:string}}>(`/writeups/${writeupID}/detail`,AppCore.getAxiosAsFetcher())
+
+  const {data,error,isLoading} = useSWR<{data:{topic:string,cover_image_url:string,owner:any,content_data:string}}>(`/writeups/${writeupID}/detail`,AppCore.getAxiosAsFetcher(),{revalidateOnFocus:false})
   
   const [editorState, setEditorState] = useState(() =>
   EditorState.createEmpty())
@@ -66,7 +74,6 @@ export default function ViewWriteup() {
       let parsed = null;
       try {
         parsed = JSON.parse(data.data.content_data)
-        console.log(parsed)
       } catch {
         // do nothings
       }
@@ -152,9 +159,24 @@ export default function ViewWriteup() {
                 </Typography>
             </Breadcrumbs>
           <div className={classes.headerContainer}>
-            {!isLoading ? <div onClick={() => {
+            {<div ref={headerRef} onClick={() => {
               window.scrollTo({top:0,behavior:'smooth'})
-            }} className={classes.coverImageContainer} style={{cursor:`url(${cusorUpwardImage}), auto`,backgroundImage:`url(${data?.data.cover_image_url ?? 'https://i.pinimg.com/originals/9a/de/dd/9adedde0c19cabfcdc4e0f1ccde19cb0.jpg'})`}}/> : <Skeleton sx={{ bgcolor: 'grey.400' }} variant='rectangular' width='100%' height='200px'/>}
+            }} className={classes.coverImageContainer} style={{cursor:`url(${cusorUpwardImage}), auto`,backgroundImage: isLoaded ? `url(${data?.data.cover_image_url ?? 'https://i.pinimg.com/originals/9a/de/dd/9adedde0c19cabfcdc4e0f1ccde19cb0.jpg'})` : ''}}
+            >
+              {(isLoading || (!isLoaded && headerInView)) && <Skeleton sx={{ bgcolor: 'grey.400',zIndex:99999999999 }} variant='rectangular' width='100%' height='100%'/>}
+              {!isLoaded && headerInView && (
+                  <img
+                    src={data?.data.cover_image_url}
+                    alt="Background"
+                    onLoad={() => {
+                      console.log('done loading')
+                      setIsLoaded(true)
+                    }}
+                    style={{ display: 'none' }} // Hide the image element
+                  />
+                )}
+
+            </div>}
             <Typography style={{textAlign:'center'}} fontFamily='monospace' mt='5px' variant='h4'>
                 {data?.data.topic}
             </Typography>
