@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from 'react'
 import { makeStyles, withStyles } from "tss-react/mui";
 import {Container, Grid, Typography,Link,Card,CardActions,CardMedia,CardContent, Button} from '@mui/material'
-import {Instagram,Facebook, KeyOutlined,Add} from '@mui/icons-material'
+import {Instagram,Facebook, KeyOutlined,Add,GitHub} from '@mui/icons-material'
 import githubProfile from '../../../assets/images/github-profile.png'
 import ArticleCard from '../../articles/ArticleCard';
-import useSWR from 'swr'
+import useSWRImmutable from 'swr/immutable'
 import { AppCore } from '../../../core/app-core';
 import { useNavigate } from 'react-router-dom';
 import { useAuthenticationStore } from '../../../states/authentication';
@@ -12,7 +12,7 @@ import { useLoadingBar } from '../../../contexts/global/hooks/useLoadingBar';
 
 export default function Landing() {
     const {cx,classes} = useStyles()
-    const {data,error,isLoading} = useSWR('/writeups/list',AppCore.getAxiosAsFetcher())
+    const {data,error,isLoading,isValidating} = useSWRImmutable('/writeups/list',AppCore.getAxiosAsFetcher())
     const loadingBar = useLoadingBar()
     const isAuthenticated = useAuthenticationStore((state) => state.isAuthenticated)
 
@@ -48,12 +48,17 @@ export default function Landing() {
                     <div className={classes.socialLinkContainerRoot}>
                         <div className={classes.socialLinkContainer}>
                             <Instagram fontSize='large'/>
-                            <Link href="https://www.instagram.com/thiti.mwk">thiti.mwk</Link>
+                            <Link href="https://www.instagram.com/thiti.mwk" underline='hover'>_thiti.mwk</Link>
                         </div>
 
                         <div className={classes.socialLinkContainer}>
                             <Facebook fontSize='large'/>
-                            <Link href="https://www.facebook.com/thiti.dev.5">Thiti-Dev</Link>
+                            <Link href="https://www.facebook.com/thiti.dev.5" underline='hover'>Thiti-Dev</Link>
+                        </div>
+
+                        <div className={classes.socialLinkContainer}>
+                            <GitHub fontSize='large'/>
+                            <Link href="https://github.com/Thiti-Dev" underline='hover'>Thiti-Dev</Link>
                         </div>
                     </div>
                 </Grid>

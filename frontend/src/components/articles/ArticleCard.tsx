@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
-import {Container, Grid, Typography,Link,Card,CardActions,CardMedia,CardContent} from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import {Container, Grid, Typography,Link,Card,CardActions,CardMedia,CardContent, Skeleton} from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { makeStyles } from 'tss-react/mui'
 import type {RawDraftContentState} from 'draft-js'
+import { useInView } from 'react-intersection-observer'
 
 type TProps = {
   topic:string,
@@ -13,9 +14,14 @@ type TProps = {
 }
 
 const ArticleCard = React.memo(({rawContentData,topic,coverImageURL,id,elevateOnHover = false}: TProps) => {
-
   const navigate = useNavigate()
   const {classes} = useStyles()
+
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { ref: headerRef, inView: headerInView } = useInView({
+    triggerOnce: true, // Only trigger the observer once
+    threshold: 0.1,    // When at least 10% of the element is visible
+  });
 
   let trimHeader = rawContentData
 
@@ -43,10 +49,23 @@ const ArticleCard = React.memo(({rawContentData,topic,coverImageURL,id,elevateOn
   return (
     <Card className={elevateOnHover ? classes.cardStyle : undefined} raised sx={{ maxWidth: 345, height: '300px',cursor:'pointer' }} onClick={() => navigate(`/writeups/${id}`)}>
       <CardMedia
+        ref={headerRef}
         sx={{ height: 140 }}
-        image={coverImageURL ?? "https://i.pinimg.com/originals/9a/de/dd/9adedde0c19cabfcdc4e0f1ccde19cb0.jpg"}
+        image={isLoaded ? coverImageURL ?? "https://i.pinimg.com/originals/9a/de/dd/9adedde0c19cabfcdc4e0f1ccde19cb0.jpg" : undefined}
         title={topic}
-      />
+      >
+        {(!isLoaded && headerInView) && <Skeleton sx={{ bgcolor: 'grey.400',zIndex:99999999999 }} variant='rectangular' width='100%' height='100%'/>}
+        {!isLoaded && headerInView && (
+                  <img
+                    src={coverImageURL}
+                    alt="Background"
+                    onLoad={() => {
+                      setIsLoaded(true)
+                    }}
+                    style={{ display: 'none' }} // Hide the image element
+                  />
+        )}
+      </CardMedia>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {topic}
