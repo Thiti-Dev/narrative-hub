@@ -39,7 +39,7 @@ export class WriteupService{
     }
 
     public async listWriteups(){
-        const writeups = await this.orm.getEntityManager().find(Writeup,{},{populate:['owner']})
+        const writeups = await this.orm.getEntityManager().find(Writeup,{},{populate:['owner'],orderBy:{createdAt: 'DESC'}})
         return Promise.all(writeups.map(async(writeup) => {
             writeup.coverImageURL = writeup.coverImageKey ? await this.storage.createPresignedURLFromKey(writeup.coverImageKey,3600) : null
             return writeup
