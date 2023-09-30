@@ -7,6 +7,7 @@ import { axiosDefaultInstance } from '../../../../../core/app-core'
 import type {AxiosError} from 'axios'
 import { useLoadingBar } from '../../../../../contexts/global/hooks/useLoadingBar'
 import {useNavigate} from 'react-router-dom'
+import { setAuthenticated } from '../../../../../states/authentication'
 
 export default function MasterVerification() {
   const {cx,classes} = useStyles()
@@ -30,6 +31,7 @@ export default function MasterVerification() {
       if(token){
         //if token found
         localStorage.setItem('token',token)
+        setAuthenticated(token)
         navigate("/")
       }
     } catch (error:unknown) {
