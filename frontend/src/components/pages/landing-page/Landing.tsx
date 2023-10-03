@@ -76,9 +76,9 @@ export default function Landing() {
                 <div className={classes.underline}/>
             </Grid>
             <div className={classes.contentGridContainerHolder}>
-                {!isLoading && !data.data?.length ?
+                {!isLoading && !data?.data?.length ?
                     <div className={classes.noContentBox}>
-                        <Typography variant='h5'>No content created from this creator . . . 😭</Typography>
+                        <Typography variant='h5'>{error ? `Couldn't communicate with service endpoint . . . 😭` : `No content created from this creator . . . 😭`}</Typography>
                     </div>
                 :   
                 <div className={classes.mainGrid}>
