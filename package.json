@@ -11,7 +11,8 @@
     "migration:create": "mikro-orm-esm migration:create",
     "migration:up": "mikro-orm-esm migration:up",
     "migration:down": "mikro-orm-esm migration:down",
-    "migration:reset": "mikro-orm-esm migration:down --to 0"
+    "migration:reset": "mikro-orm-esm migration:down --to 0",
+    "build": "pnpm install & tsc"
   },
   "keywords": [],
   "author": "",
