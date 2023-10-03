@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { makeStyles, withStyles } from "tss-react/mui";
 import {Container, Grid, Typography,Link,Card,CardActions,CardMedia,CardContent, Button} from '@mui/material'
 import {Instagram,Facebook, KeyOutlined,Add,GitHub} from '@mui/icons-material'
@@ -6,15 +6,26 @@ import githubProfile from '../../../assets/images/github-profile.png'
 import ArticleCard from '../../articles/ArticleCard';
 import useSWRImmutable from 'swr/immutable'
 import { AppCore } from '../../../core/app-core';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { useAuthenticationStore } from '../../../states/authentication';
 import { useLoadingBar } from '../../../contexts/global/hooks/useLoadingBar';
+import { mutate } from 'swr';
+
 
 export default function Landing() {
     const {cx,classes} = useStyles()
     const {data,error,isLoading,isValidating} = useSWRImmutable('/writeups/list',AppCore.getAxiosAsFetcher())
     const loadingBar = useLoadingBar()
+    const location = useLocation();
     const isAuthenticated = useAuthenticationStore((state) => state.isAuthenticated)
+
+    useEffect(() => {
+        // for forcing to refetch the data when just redirected from another page using stack pushing
+        if(!location.state) return
+        if(((location.state) as {dataRefetchNeeded?:boolean}).dataRefetchNeeded){
+            mutate('/writeups/list')
+        }
+    },[location.pathname])
 
     useEffect(() => {
         if(isLoading) return loadingBar?.continuousStart()

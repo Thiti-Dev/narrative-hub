@@ -115,7 +115,7 @@ export default function ViewWriteup() {
         try {
           await axiosDefaultInstance.delete(`/writeups/${writeupID}/delete`)
           Swal.fire({titleText:'Removed',icon:'success',showConfirmButton:false,timer:1500,willClose: () => {
-            navigate('/')
+            navigate('/',{state:{dataRefetchNeeded:true}})
           }}) 
           
         } catch {   
