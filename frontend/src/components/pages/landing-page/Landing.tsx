@@ -76,9 +76,14 @@ export default function Landing() {
                 <div className={classes.underline}/>
             </Grid>
             <div className={classes.contentGridContainerHolder}>
+                {!isLoading && !data.data?.length ?
+                    <div className={classes.noContentBox}>
+                        <Typography variant='h5'>No content created from this creator . . . 😭</Typography>
+                    </div>
+                :   
                 <div className={classes.mainGrid}>
                     {renderedArticles}
-                </div>
+                </div>}
             </div>
         </Container>
   )
@@ -136,6 +141,9 @@ const useStyles = makeStyles()(
         authenticateNavigation:{
             float:'right',
             marginTop:'10px'
+        },
+        noContentBox:{
+
         }
     })
 );
