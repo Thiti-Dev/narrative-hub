@@ -20,6 +20,9 @@ export class ManangementController{
 
     @DefineRoute("/create-owner",RequestMethod.POST,{validationBlueprint:CreateOwnerBodyDTO})
     public async createOwner(ctx:Context,_next:Next){
+        if((ctx.request.dto as CreateOwnerBodyDTO).rconPassword !== process.env.RCON_PASSWORD){
+            return ctx.status = 403
+        }
         const owners = await this.managementService.createOwner(ctx.request.dto as CreateOwnerBodyDTO)
         ctx.body = { data: owners }; 
     }
