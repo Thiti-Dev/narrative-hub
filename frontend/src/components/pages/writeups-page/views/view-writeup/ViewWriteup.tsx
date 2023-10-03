@@ -127,7 +127,7 @@ export default function ViewWriteup() {
 
   return (
     <Container maxWidth='lg'>
-        <div style={{position:'sticky',top: 0,zIndex: 999999999,backgroundColor:'white'}}>
+        <div style={{position:'sticky',top: 0,zIndex: 9,backgroundColor:'white'}}>
           <Breadcrumbs aria-label="breadcrumb">
                 <Link
                 underline="hover"
@@ -163,7 +163,7 @@ export default function ViewWriteup() {
               window.scrollTo({top:0,behavior:'smooth'})
             }} className={classes.coverImageContainer} style={{cursor:`url(${cusorUpwardImage}), auto`,backgroundImage: isLoaded ? `url(${data?.data.cover_image_url ?? 'https://i.pinimg.com/originals/9a/de/dd/9adedde0c19cabfcdc4e0f1ccde19cb0.jpg'})` : ''}}
             >
-              {(isLoading || (!isLoaded && headerInView)) && <Skeleton sx={{ bgcolor: 'grey.400',zIndex:99999999999 }} variant='rectangular' width='100%' height='100%'/>}
+              {(isLoading || (!isLoaded && headerInView)) && <Skeleton sx={{ bgcolor: 'grey.400',zIndex:9}} variant='rectangular' width='100%' height='100%'/>}
               {!isLoaded && headerInView && (
                   <img
                     src={data?.data.cover_image_url}
